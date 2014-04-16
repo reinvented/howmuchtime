@@ -1,0 +1,18 @@
+<head>
+<script src="http://connect.soundcloud.com/sdk.js"></script>
+<script>
+  SC.initialize({
+    client_id: "INSERT_SOUNDCLOUD_APP_KEY_HERE",		// get yours from http://soundcloud.com/you/apps
+    redirect_uri: "http://howmuchtime.dev/callback.html",
+  });
+  
+  SC.get("/users/ruk/tracks", { limit: 500 }, function(tracks){
+  	var totalDuration = 0;
+		for (var key in tracks) {
+			totalDuration = totalDuration + tracks[key].duration;
+		}
+		totalDuration = (totalDuration / 1000) / 60 / 60;
+		alert("You have uploaded a total of " + Math.round(totalDuration * 100) / 100 + " hours to SoundCloud.");
+	});
+</script>
+</head>
