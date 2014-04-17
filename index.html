@@ -1,18 +1,29 @@
 <head>
-<script src="http://connect.soundcloud.com/sdk.js"></script>
-<script>
-  SC.initialize({
-    client_id: "INSERT_SOUNDCLOUD_APP_KEY_HERE",		// get yours from http://soundcloud.com/you/apps
-    redirect_uri: "http://howmuchtime.dev/callback.html",
-  });
-  
-  SC.get("/users/ruk/tracks", { limit: 500 }, function(tracks){
-  	var totalDuration = 0;
-		for (var key in tracks) {
-			totalDuration = totalDuration + tracks[key].duration;
-		}
-		totalDuration = (totalDuration / 1000) / 60 / 60;
-		alert("You have uploaded a total of " + Math.round(totalDuration * 100) / 100 + " hours to SoundCloud.");
-	});
-</script>
+    <title>How Much Time on my Hands?</title>
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>
+    
+        SC.initialize({
+            client_id: "30476c737a345d4eb6b19f08071120d6",      // get yours from http://soundcloud.com/you/apps
+            redirect_uri: "http://howmuchtime.dev/callback.html",
+        });
+    
+        $("#connect").live("click", function(){
+            SC.connect(function(){
+                SC.get("/me/tracks", { limit: 500 }, function(tracks){
+                    var totalDuration = 0;
+                    for (var key in tracks) {
+                        totalDuration = totalDuration + tracks[key].duration;
+                    }
+                    totalDuration = (totalDuration / 1000) / 60 / 60;
+                    alert("You have uploaded a total of " + Math.round(totalDuration * 100) / 100 + " hours to SoundCloud.");
+                });
+            });
+        });
+
+    </script>
 </head>
+<body>
+    <input type="button" id="connect" value="Connect with SoundCloud">
+</body>
